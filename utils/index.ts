@@ -1,0 +1,1 @@
+export { getPaginatedResponse } from "./getPaginatedResponse";
