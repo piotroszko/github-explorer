@@ -6,6 +6,7 @@ import {
   ConfigContextType,
   useConfig,
 } from "../components/config/ConfigProvider";
+import { API_ENDPOINTS } from "./endpoints";
 
 const getUsers = async (
   query: string,
@@ -14,7 +15,7 @@ const getUsers = async (
 ) => {
   const { github_url, per_page } = config || {};
 
-  const response = await axios.get(github_url + "search/users", {
+  const response = await axios.get(github_url + API_ENDPOINTS.seachUsers, {
     params: {
       per_page,
       q: query,
@@ -29,6 +30,11 @@ const getUsers = async (
   );
 };
 
+/**
+ * React query hook to get users base on name and page
+ * @param query Search string for users
+ * @param page Page number
+ */
 export const useGetUsers = (query: string, page: number) => {
   const config = useConfig();
   useQuery<Pagination<User[]>, Error>({

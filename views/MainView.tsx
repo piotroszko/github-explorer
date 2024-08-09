@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native-paper";
 
 export const MainView = () => {
-  return (
-    <View>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
+  return <Text variant="titleLarge">Title Large</Text>;
 };
