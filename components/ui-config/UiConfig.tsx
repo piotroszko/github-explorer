@@ -5,9 +5,6 @@ export interface UiConfigContextType {
   placholders?: {
     search?: string;
   };
-  timings?: {
-    searchDebounce?: number;
-  };
   transitions?: {
     resultsForUser?: string;
     repositoriesNotFound?: string;

@@ -26,7 +26,7 @@ interface UsersListProps {
 export const UsersList = ({ users }: UsersListProps) => {
   return isNil(users) || users.length === 0 ? null : (
     <ScrollView>
-      <List.Section>
+      <List.Section testID="list">
         {users.map((user) => (
           <UserComponent key={user.id} user={user} />
         ))}
@@ -40,6 +40,7 @@ const UserComponent = ({ user }: { user: User }) => {
   const [expanded, setExpanded] = useState(false);
   return (
     <List.Accordion
+      testID={`user-${user.id}`}
       key={user.id}
       title={user.login}
       expanded={expanded}

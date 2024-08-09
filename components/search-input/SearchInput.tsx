@@ -27,7 +27,7 @@ interface SearchInputProps {
 
 export const SearchInput = ({ onChange }: SearchInputProps) => {
   const theme = useTheme();
-  const { placholders, timings } = useUiConfig();
+  const { placholders } = useUiConfig();
   const [search, setSearch] = useState("");
   const styles = useStyles();
 
@@ -40,6 +40,7 @@ export const SearchInput = ({ onChange }: SearchInputProps) => {
   return (
     <View style={styles.wrapper}>
       <TextInput
+        testID="search-input"
         style={styles.input}
         value={search}
         placeholder={placholders?.search}
@@ -50,6 +51,7 @@ export const SearchInput = ({ onChange }: SearchInputProps) => {
 
       {isClearButtonVisible && (
         <Pressable
+          testID="clear-button"
           style={styles.clearButton}
           onPress={() => {
             setSearch("");

@@ -26,13 +26,19 @@ export const RepositoriesList = ({ username }: RepositoriesListProps) => {
   const { transitions } = useUiConfig();
 
   if (isLoading) {
-    return <ActivityIndicator animating={true} size={25} />;
+    return (
+      <ActivityIndicator animating={true} size={25} testID="loading-icon" />
+    );
   }
 
   return data?.length === 0 || isError ? (
     <List.Item
       title={
-        <Text style={styles.notFound}>
+        <Text
+          style={styles.notFound}
+          testID={
+            data?.length === 0 ? "repositories-not-found" : "error-message"
+          }>
           {data?.length === 0
             ? transitions?.repositoriesNotFound
             : transitions?.errorWhileFetching}
@@ -42,6 +48,7 @@ export const RepositoriesList = ({ username }: RepositoriesListProps) => {
   ) : (
     data?.map((repo) => (
       <List.Item
+        testID={`repository-${repo?.id}`}
         left={() => (
           <List.Icon icon="source-repository" color={theme?.colors?.primary} />
         )}
