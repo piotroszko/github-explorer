@@ -35,10 +35,11 @@ const getUsers = async (
  * @param query Search string for users
  * @param page Page number
  */
-export const useGetUsers = (query: string, page: number) => {
+export const useGetUsersQuery = (query?: string, page = 0) => {
   const config = useConfig();
-  useQuery<Pagination<User[]>, Error>({
+  return useQuery<Pagination<User[]>, Error>({
     queryKey: ["users", [query, page, config]],
-    queryFn: () => getUsers(query, page, config),
+    queryFn: () => getUsers(query || "", page, config),
+    enabled: !!query,
   });
 };
