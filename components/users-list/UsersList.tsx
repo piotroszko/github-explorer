@@ -45,6 +45,7 @@ const UserComponent = ({ user }: { user: User }) => {
       title={user.login}
       expanded={expanded}
       onPress={expanded ? () => setExpanded(false) : () => setExpanded(true)}
+      style={{ flex: 1 }}
       left={() => (
         <View style={styles.avatarWrapper}>
           <Image

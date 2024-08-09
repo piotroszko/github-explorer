@@ -2,6 +2,7 @@ import { ActivityIndicator, List, Text, useTheme } from "react-native-paper";
 import { useRepositoriesQuery } from "../../api/useRepositoriesQuery";
 import { StyleSheet, View } from "react-native";
 import { useUiConfig } from "../ui-config/UiConfig";
+import { Respository } from "../../api/models";
 
 const useStyles = () => {
   const theme = useTheme();
@@ -20,10 +21,7 @@ interface RepositoriesListProps {
   username: string;
 }
 export const RepositoriesList = ({ username }: RepositoriesListProps) => {
-  const theme = useTheme();
   const { data, isLoading, isError } = useRepositoriesQuery(username);
-  const styles = useStyles();
-  const { transitions } = useUiConfig();
 
   if (isLoading) {
     return (
@@ -32,48 +30,60 @@ export const RepositoriesList = ({ username }: RepositoriesListProps) => {
   }
 
   return data?.length === 0 || isError ? (
+    <List.Item title={<NoData isError={isError} />} />
+  ) : (
+    data?.map((repo) => <Repository key={repo?.id} repo={repo} />)
+  );
+};
+
+const NoData = ({ isError }: { isError: boolean }) => {
+  const styles = useStyles();
+  const { transitions } = useUiConfig();
+  return (
     <List.Item
       title={
         <Text
           style={styles.notFound}
-          testID={
-            data?.length === 0 ? "repositories-not-found" : "error-message"
-          }>
-          {data?.length === 0
-            ? transitions?.repositoriesNotFound
-            : transitions?.errorWhileFetching}
+          testID={isError ? "error-message" : "repositories-not-found"}>
+          {isError
+            ? transitions?.errorWhileFetching
+            : transitions?.repositoriesNotFound}
         </Text>
       }
     />
-  ) : (
-    data?.map((repo) => (
-      <List.Item
-        testID={`repository-${repo?.id}`}
-        left={() => (
-          <List.Icon icon="source-repository" color={theme?.colors?.primary} />
-        )}
-        right={() => (
-          <View
+  );
+};
+
+const Repository = ({ repo }: { repo: Respository }) => {
+  const theme = useTheme();
+  const styles = useStyles();
+  return (
+    <List.Item
+      testID={`repository-${repo?.id}`}
+      left={() => (
+        <List.Icon icon="source-repository" color={theme?.colors?.primary} />
+      )}
+      right={() => (
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 5,
+          }}>
+          <Text
+            variant="titleSmall"
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 5,
+              fontWeight: "bold",
             }}>
-            <Text
-              variant="titleSmall"
-              style={{
-                fontWeight: "bold",
-              }}>
-              {repo?.stargazers_count}
-            </Text>
-            <List.Icon icon="star" color={theme?.colors?.tertiary} />
-          </View>
-        )}
-        title={repo?.name}
-        key={repo?.id}
-        description={repo?.description}
-        style={styles.repositiory}
-      />
-    ))
+            {repo?.stargazers_count}
+          </Text>
+          <List.Icon icon="star" color={theme?.colors?.tertiary} />
+        </View>
+      )}
+      title={repo?.name}
+      key={repo?.id}
+      description={repo?.description}
+      style={styles.repositiory}
+    />
   );
 };

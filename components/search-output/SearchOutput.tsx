@@ -1,5 +1,4 @@
 import { ActivityIndicator, Icon } from "react-native-paper";
-import { Pagination, User } from "../../api/models";
 import { StyleSheet, View } from "react-native";
 import { ResultsFor } from "../results-for/ResultsFor";
 import { UsersList } from "../users-list/UsersList";
@@ -34,7 +33,10 @@ export const SearchOutput = ({ username }: SearchOutputProps) => {
   return isError ? (
     <Icon source="alert-circle" size={50} />
   ) : (
-    <View>
+    <View
+      style={{
+        flex: 1,
+      }}>
       <ResultsFor username={username} />
       <UsersList users={data?.data || []} />
     </View>
